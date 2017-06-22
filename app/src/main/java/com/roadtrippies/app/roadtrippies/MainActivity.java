@@ -1,8 +1,12 @@
 package com.roadtrippies.app.roadtrippies;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -23,7 +28,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,10 +93,21 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_login) {
+            startActivity(new Intent(getBaseContext(), LoginActivity.class));
 
         } else if (id == R.id.nav_send) {
+            /* Create the Intent */
+            final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 
+            /* Fill it with Data */
+            emailIntent.setType("plain/text");
+            emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"Roadtrippies@support.info"});
+            emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Regarding: Feedback Roadtrippies app");
+            emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Insert feedback here...");
+
+            /* Send it off to the Activity-Chooser */
+            startActivity(emailIntent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
