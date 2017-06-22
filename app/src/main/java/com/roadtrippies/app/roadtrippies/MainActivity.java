@@ -91,8 +91,8 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_manage) {
-
+        } else if (id == R.id.nav_virtual) {
+            startActivity(new Intent(getBaseContext(), AssistantActivity.class));
         } else if (id == R.id.nav_login) {
             startActivity(new Intent(getBaseContext(), LoginActivity.class));
 
