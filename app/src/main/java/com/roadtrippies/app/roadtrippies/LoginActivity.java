@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //#TODO  Handle login types aka google login and normal login
         if (!GlobalClass.getInstance().LoggedIn) {
             setContentView(R.layout.login_activity);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -55,6 +55,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             password = (TextView) findViewById(R.id.userPasword);
 
             GsignIn.setOnClickListener(this);
+            btn_create.setOnClickListener(this);
 
             GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
             googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
@@ -82,6 +83,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
 
+            case R.id.btn_create:
+                startActivity(new Intent(this,CreateAccountActivity.class));
+                break;
+
             case R.id.g_signIn:
                 signIn();
                 break;
@@ -100,7 +105,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void signIn()
-    {
+    {//#TODO handle normal logins as well
         Intent i = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         Log.d("Debug", "Passed GsignIn()");
         startActivityForResult(i, REQ_CODE);
@@ -109,15 +114,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void signOut() {
         Log.d("Debug", "boop");
-        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
-            new ResultCallback<Status>() {
-                @Override
-                public void onResult(@NonNull Status status) {
-                    Log.d("Debug", "starting ui update");
-                    updateUI(true);
-                }
-            }
-        );
+        GlobalClass.getInstance().LoggedIn = false;
+        GlobalClass.getInstance().user = null;
+        GlobalClass.getInstance().email = null;
+        updateUI(true);//#TODO fix this shit
+//        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback( //temporarily removed due to not knowing how to fix this shit
+//                new ResultCallback<Status>() {
+//                    @Override
+//                public void onResult(@NonNull Status status) {
+//                    Log.d("Debug", "starting ui update");
+//                    updateUI(true);
+//                }
+//            }
+//        );
     }
 
     private void handleResult(GoogleSignInResult result){
@@ -126,7 +135,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String name = account.getDisplayName();
             String email = account.getEmail();
 
-            if(account.getPhotoUrl() != null) {                                   //in case we want to get and display profile pictures somewhere
+            if(account.getPhotoUrl() != null) {
                 profileImgUrl = account.getPhotoUrl().toString();
                 GlobalClass.getInstance().profileImgUrl = profileImgUrl;
             }

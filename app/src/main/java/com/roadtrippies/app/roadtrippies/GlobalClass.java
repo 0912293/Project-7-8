@@ -1,5 +1,7 @@
 package com.roadtrippies.app.roadtrippies;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+
 /**
  * Created by Kevin on 23/06/2017.
  */
@@ -9,6 +11,7 @@ public class GlobalClass {
 
     public boolean LoggedIn,LoginType;
     public String email,user,profileImgUrl;
+    public GoogleApiClient googleApiClient;
 
 
     protected GlobalClass(){}
