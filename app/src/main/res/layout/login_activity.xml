@@ -1,69 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/profile_section"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="50dp"
-        android:weightSum="1">
-
-        <ImageView
-            android:layout_width="90dp"
-            android:layout_height="match_parent"
-            android:id="@+id/profile_pic"
-            android:src="@drawable/ic_wallpaper"
-            android:layout_weight="0.21" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="28dp"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            >
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Display name here.."
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:id="@+id/profile_name"
-                android:gravity="center"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Display email here.."
-                android:textSize="12dp"
-                android:textStyle="bold"
-                android:id="@+id/profile_email"
-                android:gravity="center"
-                />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Logout from Google"
-                android:id="@+id/btn_logout"
-                />
-        </LinearLayout>
-
-    </LinearLayout>
-
     <com.google.android.gms.common.SignInButton
-        android:layout_height="wrap_content"
+        android:id="@+id/g_signIn"
         android:layout_width="match_parent"
-        android:layout_marginTop="60dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:id="@+id/g_signIn">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gtext"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="23dp">
 
     </com.google.android.gms.common.SignInButton>
 
-</LinearLayout>
+    <EditText
+        android:id="@+id/gtext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:ems="10"
+        android:inputType="none"
+        android:textAlignment="center"
+        android:visibility="visible"
+        tools:text="Or login with google" />
+
+    <EditText
+        android:id="@+id/userEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:text="Email"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/userPasword"
+        android:layout_alignStart="@+id/userPasword"
+        android:layout_marginTop="19dp" />
+
+    <EditText
+        android:id="@+id/userPasword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:text="Password"
+        android:layout_below="@+id/userEmail"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/btn_signin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userPasword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="Sign in" />
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/g_signIn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="66dp"
+        android:text="No account yet?"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btn_create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:text="Create one!" />
+
+
+</RelativeLayout>
