@@ -1,45 +1,45 @@
 {
   "project_info": {
-    "project_number": "27742362514",
-    "project_id": "firebase-roadtrippies"
+    "project_number": "87267384606",
+    "project_id": "roadtrippies-16020"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:27742362514:android:3aba4b0a5061eefa",
+        "mobilesdk_app_id": "1:87267384606:android:3aba4b0a5061eefa",
         "android_client_info": {
           "package_name": "com.roadtrippies.app.roadtrippies"
         }
       },
       "oauth_client": [
         {
-          "client_id": "27742362514-m7pili2j0e68thmcoaatrjd0n6samcjo.apps.googleusercontent.com",
+          "client_id": "87267384606-n9e313d31drfs9693nr1ninsevm9dq27.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "87267384606-85soak1boqco2t01bjunvnnjnnped4iv.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.roadtrippies.app.roadtrippies",
-            "certificate_hash": "b650e90bdb499f7b94d14f92c9be097c66d76c6c"
+            "certificate_hash": "285d3b59dec7dbcf418d7068599a0e0d7df6e019"
           }
-        },
-        {
-          "client_id": "27742362514-m5vnvh58tf1lfj5h79fv3a30hl5t5u70.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDt3a1ZYwy5ccGnXZzN8bCj2RfvuJkaIag"
+          "current_key": "AIzaSyCkA6LPCL-vV7sxhi3mTnkvHX5aRcltjZs"
         }
       ],
       "services": {
         "analytics_service": {
-          "status": 0
+          "status": 1
         },
         "appinvite_service": {
-          "status": 0,
+          "status": 1,
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 0
+          "status": 1
         }
       }
     }
