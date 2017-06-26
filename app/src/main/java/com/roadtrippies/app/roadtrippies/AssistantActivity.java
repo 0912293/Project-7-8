@@ -70,7 +70,7 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
         String paraString = "";
         if (result.getParameters() != null && !result.getParameters().isEmpty()) {
             for (final Map.Entry<String, JsonElement> entry : result.getParameters().entrySet()) {
-                paraString += "(" + entry.getKey() + ", " + entry.getValue() + ") ";
+                paraString += "(" + entry.getKey() + ", "  + entry.getValue() + " ) ";
             }
         }
 
