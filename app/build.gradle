@@ -35,6 +35,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:9.0.0'
     compile 'com.github.bumptech.glide:glide:3.8.0'
 
+    //compile 'org.neo4j.driver:neo4j-java-driver:3.0.3'
     compile 'ai.api:libai:1.4.8'
     compile 'ai.api:sdk:2.0.5@aar'
 // api.ai SDK dependencies

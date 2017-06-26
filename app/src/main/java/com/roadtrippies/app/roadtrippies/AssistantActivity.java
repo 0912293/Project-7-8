@@ -83,12 +83,12 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
         Toast.makeText(getApplicationContext(),
                 response.getResult().getFulfillment().getSpeech(),//.toString(),
                 Toast.LENGTH_LONG).show();
-        System.out.println(result.getAction());
+        System.out.println(paraString);
+        Parser.ParseResult(paraString);
+
     }
 
-//    private void action(String s){
-//        if (s.equals("")
-//    }ddsdsd
+
 
     @Override
     public void onError(AIError error) {
