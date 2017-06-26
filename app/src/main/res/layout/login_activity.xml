@@ -23,6 +23,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
+        android:editable="false"
         android:ems="10"
         android:inputType="none"
         android:textAlignment="center"
@@ -72,7 +73,7 @@
         android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/btn_create"
+        android:id="@+id/btn_to_create"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text1"

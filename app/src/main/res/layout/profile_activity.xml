@@ -42,7 +42,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Logout from Google"
+        android:text="Logout"
         android:id="@+id/btn_logout"
         android:layout_below="@+id/profile_pic"
         android:layout_alignParentLeft="true"

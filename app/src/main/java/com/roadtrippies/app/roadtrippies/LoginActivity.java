@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             GsignIn = (SignInButton) findViewById(R.id.g_signIn);
-            btn_create = (Button)findViewById(R.id.btn_create);
+            btn_create = (Button)findViewById(R.id.btn_to_create);
 
             btn_signin = (Button)findViewById(R.id.btn_signin);
             name = (TextView) findViewById(R.id.profile_name);
@@ -56,6 +56,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             GsignIn.setOnClickListener(this);
             btn_create.setOnClickListener(this);
+            btn_signin.setOnClickListener(this);
 
             GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
             googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, signInOptions).build();
@@ -83,12 +84,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
 
-            case R.id.btn_create:
+            case R.id.btn_to_create:
                 startActivity(new Intent(this,CreateAccountActivity.class));
                 break;
 
             case R.id.g_signIn:
-                signIn();
+                GlobalClass.getInstance().LoginType = true;
+                signIn(GlobalClass.getInstance().LoginType);
+                break;
+
+            case R.id.btn_signin:
+                GlobalClass.getInstance().LoginType = false;
+                signIn(GlobalClass.getInstance().LoginType);
                 break;
 
             case R.id.btn_logout:
@@ -104,29 +111,39 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Log.d("Debug", "ConnFailed");
     }
 
-    private void signIn()
+    private void signIn(boolean type)
     {//#TODO handle normal logins as well
-        Intent i = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-        Log.d("Debug", "Passed GsignIn()");
-        startActivityForResult(i, REQ_CODE);
-
+        if(type) {
+            Intent i = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+            Log.d("Debug", "Passed GsignIn()");
+            startActivityForResult(i, REQ_CODE);
+        }else if (!type){
+            Log.d("Debug", "normal signin");
+            GlobalClass.getInstance().email = useremail.getText().toString(); //#TODO data base stuff
+            GlobalClass.getInstance().pass = password.getText().toString();
+            GlobalClass.getInstance().LoggedIn = true;
+            Toast.makeText(this,"Logged in", Toast.LENGTH_SHORT).show();
+            updateUI(true);
+        }
     }
 
     private void signOut() {
         Log.d("Debug", "boop");
-        GlobalClass.getInstance().LoggedIn = false;
-        GlobalClass.getInstance().user = null;
-        GlobalClass.getInstance().email = null;
-        updateUI(true);//#TODO fix this shit
-//        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback( //temporarily removed due to not knowing how to fix this shit
-//                new ResultCallback<Status>() {
-//                    @Override
-//                public void onResult(@NonNull Status status) {
-//                    Log.d("Debug", "starting ui update");
-//                    updateUI(true);
+        GlobalClass.getInstance().clear();
+        Toast.makeText(this,"Signed out", Toast.LENGTH_SHORT).show();
+        updateUI(true);//#TODO fix this shit...maybe
+//        if(googleApiClient.isConnected()){
+//            Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback( //temporarily removed due to not knowing how to fix this shit
+//                    new ResultCallback<Status>() {
+//                        @Override
+//                    public void onResult(@NonNull Status status) {
+//                        Log.d("Debug", "starting ui update");
+//                        updateUI(true);
+//                    }
 //                }
-//            }
-//        );
+//            );
+//        }
+
     }
 
     private void handleResult(GoogleSignInResult result){
@@ -141,9 +158,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
             GlobalClass.getInstance().user = name;
             GlobalClass.getInstance().email = email;
+            GlobalClass.getInstance().LoginType = true;
             Toast.makeText(this, name, Toast.LENGTH_LONG).show();
 
             Log.d("Debug", "Passed succesful handleResult()");
+            Toast.makeText(this,"Logged in with google", Toast.LENGTH_SHORT).show();
             updateUI(true);
         }
         else{
@@ -171,6 +190,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         if(requestCode == REQ_CODE && data != null){
             Log.d("Debug", "Passed onActivityResult() conditional");
+            googleApiClient.connect();
             GoogleSignInResult res = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             Log.d("Debug", "Starting result handle");
             handleResult(res);

@@ -10,7 +10,7 @@ public class GlobalClass {
     private static GlobalClass mInstance = null;
 
     public boolean LoggedIn,LoginType;
-    public String email,user,profileImgUrl;
+    public String email,user,profileImgUrl,pass;
     public GoogleApiClient googleApiClient;
 
 
@@ -21,5 +21,13 @@ public class GlobalClass {
             mInstance = new GlobalClass();
         }
         return mInstance;
+    }
+
+    public void clear(){
+        LoggedIn = false;
+        user = null;
+        email = null;
+        profileImgUrl = null;
+        pass = null;
     }
 }
