@@ -2,7 +2,6 @@ package com.roadtrippies.app.roadtrippies;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
@@ -28,8 +27,6 @@ public class NearbyActivity extends AppCompatActivity implements OnMapReadyCallb
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             gMap.setMyLocationEnabled(true);
-        } else {
-            //error
         }
 
         gMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
