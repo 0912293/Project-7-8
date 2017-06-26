@@ -35,6 +35,8 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_create:
+                dbCon db = new dbCon();
+                db.CONN();
                 createAccount();
                 break;
         }
