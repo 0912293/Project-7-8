@@ -4,19 +4,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_nearby"
-            android:icon="@drawable/ic_explore"
+            android:icon="@drawable/ic_menu_camera"
             android:title="Nearby events" />
         <item
             android:id="@+id/nav_events"
-            android:icon="@drawable/ic_list"
+            android:icon="@drawable/ic_menu_gallery"
             android:title="List of events" />
         <item
-            android:id="@+id/nav_friends"
-            android:icon="@drawable/ic_satisfied"
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/ic_menu_slideshow"
             android:title="Friends" />
         <item
-            android:id="@+id/nav_va"
-            android:icon="@drawable/ic_voice"
+            android:id="@+id/nav_virtual"
+            android:icon="@drawable/ic_menu_manage"
             android:title="Virtual assistant" />
     </group>
 
