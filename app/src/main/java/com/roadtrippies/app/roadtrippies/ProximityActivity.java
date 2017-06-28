@@ -77,11 +77,7 @@ public class ProximityActivity extends Activity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createNotification();
-                checkProximity(4.484031f, 51.917102f);
-                checkProximity(4.485619f, 51.916520f);
-                Log.d("LocFromAddress", "Lat: " + (int) getLocationFromAddress("Rotterdam").getLatitude() + " Lng: "
-                + (int) getLocationFromAddress("Rotterdam").getLongitude());
+                addressToNotification("Rotterdam Wijnhaven 99");
             }
         });
 
@@ -144,7 +140,8 @@ public class ProximityActivity extends Activity {
 
         try {
             address = geocoder.getFromLocationName(strAddress, 5);
-            if (address == null){
+            if (address.get(0) == null){
+                Log.d("LocFromAddress", "address returns null");
                 return null;
             }
             Address location = address.get(0);
@@ -160,6 +157,12 @@ public class ProximityActivity extends Activity {
         }
     }
 
+    public void addressToNotification(String addressStr){
+        createNotification();
+        checkProximity((float) getLocationFromAddress(addressStr).getLongitude(),
+                (float) getLocationFromAddress(addressStr).getLatitude());
+    }
+
     public class MyReceiver extends BroadcastReceiver {
 
         private final int NOTIF_ID = 666;
@@ -173,6 +176,8 @@ public class ProximityActivity extends Activity {
                 Toast.makeText(context, "entering", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(context, "exiting", Toast.LENGTH_SHORT).show();
+                notificationManager.cancel(NOTIF_ID);
+                return;
             }
 
             notificationManager.notify(NOTIF_ID, mBuilder.build());
