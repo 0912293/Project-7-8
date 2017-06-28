@@ -80,6 +80,8 @@ public class ProximityActivity extends Activity {
                 createNotification();
                 checkProximity(4.484031f, 51.917102f);
                 checkProximity(4.485619f, 51.916520f);
+                Log.d("LocFromAddress", "Lat: " + (int) getLocationFromAddress("Rotterdam").getLatitude() + " Lng: "
+                + (int) getLocationFromAddress("Rotterdam").getLongitude());
             }
         });
 
