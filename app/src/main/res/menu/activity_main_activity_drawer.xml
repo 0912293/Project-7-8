@@ -18,6 +18,10 @@
             android:id="@+id/nav_virtual"
             android:icon="@drawable/ic_menu_manage"
             android:title="Virtual assistant" />
+        <item
+            android:id="@+id/nav_notification_test"
+            android:icon="@drawable/common_google_signin_btn_icon_dark"
+            android:title="NotificationTest" />
     </group>
 
     <item android:title="Communicate">
