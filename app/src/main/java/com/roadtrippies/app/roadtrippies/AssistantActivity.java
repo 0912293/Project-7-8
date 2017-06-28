@@ -70,7 +70,7 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
         String paraString = "";
         if (result.getParameters() != null && !result.getParameters().isEmpty()) {
             for (final Map.Entry<String, JsonElement> entry : result.getParameters().entrySet()) {
-                paraString += "(" + entry.getKey() + ", " + entry.getValue() + ") ";
+                paraString += "(" + entry.getKey() + ", "  + entry.getValue() + " ) ";
             }
         }
 
@@ -83,12 +83,12 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
         Toast.makeText(getApplicationContext(),
                 response.getResult().getFulfillment().getSpeech(),//.toString(),
                 Toast.LENGTH_LONG).show();
-        System.out.println(result.getAction());
+        System.out.println(paraString);
+        Parser.ParseResult(paraString);
+
     }
 
-//    private void action(String s){
-//        if (s.equals("")
-//    }
+
 
     @Override
     public void onError(AIError error) {
