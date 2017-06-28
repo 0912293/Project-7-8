@@ -44,7 +44,7 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
         listenButton = (Button) findViewById(R.id.btn_listen);
         resultTextView = (TextView) findViewById(R.id.result_text);
 
-        final AIConfiguration config = new AIConfiguration("56f9bb6e028340089cbaef101e1d1515",
+        final AIConfiguration config = new AIConfiguration("88d81a5adb4a4a79811d201a001317d9",
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
 
