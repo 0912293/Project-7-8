@@ -49,7 +49,6 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
     public void createAccount() {
         Log.d("Debug", "Account creation started");
-//#TODO send shit to db
         GlobalClass.getInstance().email = userEmail.getText().toString();
         Log.d("Debug", "3");
         GlobalClass.getInstance().pass = userPass.getText().toString();
