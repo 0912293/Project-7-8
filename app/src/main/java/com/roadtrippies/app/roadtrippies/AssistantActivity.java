@@ -12,8 +12,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+
+import java.lang.reflect.Array;
+import java.util.HashMap;
 import java.util.Map;
 
 import ai.api.AIListener;
@@ -22,6 +29,8 @@ import ai.api.android.AIService;
 import ai.api.model.AIError;
 import ai.api.model.AIResponse;
 import ai.api.model.Result;
+
+import static android.R.id.empty;
 
 public class AssistantActivity extends AppCompatActivity implements AIListener {
 
@@ -79,6 +88,28 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
                 "\n\n\nQuery:" + result.getResolvedQuery() +
                 "\nAction: " + result.getAction() +
                 "\nParameters: " + paraString);
+
+        final HashMap<String, JsonElement> params = result.getParameters();
+
+        if (params != null && !params.isEmpty()) {
+            for (final Map.Entry<String, JsonElement> entry : params.entrySet()) {
+                if(entry.getValue().toString().length()>3) {
+                    if (entry.getKey().equals("genre")) {
+                        Log.d("Debug", entry.getValue().toString());
+                        String genre = entry.getValue().toString();
+                        genre = genre.substring(2, genre.length() - 2); //makes a substring from the genre substring
+                        Log.d("Debug", genre);                          //send genre string to where you need it
+                    } else if (entry.getKey().equals("distance")) {
+                        String amount = entry.getValue().toString();
+                        amount = amount.substring(10, amount.indexOf(",")); //makes a substring from the amount part
+                        Log.d("Debug", amount);                         //send amount string to where you need it
+                        String unit = entry.getValue().toString();
+                        unit = unit.substring(unit.indexOf(",") + 9,unit.length()-2);   //makes a substring from the unit part
+                        Log.d("Debug", unit);                           //send unit string to where you need it
+                    }
+                }
+            }
+        }
 
         Toast.makeText(getApplicationContext(),
                 response.getResult().getFulfillment().getSpeech(),//.toString(),
