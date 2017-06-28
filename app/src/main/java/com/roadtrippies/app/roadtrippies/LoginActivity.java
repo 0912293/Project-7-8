@@ -22,8 +22,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener{
 
@@ -70,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             email = (TextView) findViewById(R.id.profile_email);
             signOut = (Button) findViewById(R.id.btn_logout);
 
-            name.setText(GlobalClass.getInstance().user);
+            name.setText(GlobalClass.getInstance().name);
             email.setText(GlobalClass.getInstance().email);
 
             if(GlobalClass.getInstance().profileImgUrl!=null) {
@@ -119,11 +120,40 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             startActivityForResult(i, REQ_CODE);
         }else if (!type){
             Log.d("Debug", "normal signin");
-            GlobalClass.getInstance().email = useremail.getText().toString(); //#TODO data base stuff
-            GlobalClass.getInstance().pass = password.getText().toString();
-            GlobalClass.getInstance().LoggedIn = true;
-            Toast.makeText(this,"Logged in", Toast.LENGTH_SHORT).show();
-            updateUI(true);
+            dblogin();
+        }
+    }
+
+    private void dblogin(){
+        dbCon db = new dbCon();
+        db.CONN();
+        Log.d("Debug","dblogin");
+        String query = "SELECT dbo.users.password FROM dbo.users WHERE dbo.users.email = ?";
+        try {
+            PreparedStatement preparedStmt = db.conn.prepareStatement(query);
+            preparedStmt.setString(1, password.getText().toString());
+            Log.d("Debug",preparedStmt.toString());
+            ResultSet rs = preparedStmt.executeQuery();
+            if(rs.next()){
+                if (password.getText().toString().equals(rs.getString("password"))) {
+                    Log.d("Debug", "1");
+                    GlobalClass.getInstance().email = useremail.getText().toString();
+                    GlobalClass.getInstance().pass = password.getText().toString();
+                    GlobalClass.getInstance().LoggedIn = true;
+                    Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT).show();
+                    updateUI(true);
+                }else{
+                    Log.d("Debug", "wrong password");
+                    Toast.makeText(this, "wrong password", Toast.LENGTH_LONG).show();
+                    GlobalClass.getInstance().clear();
+                }
+            }else{
+                Log.d("Debug", "did not find things");
+                Toast.makeText(this, "Failed to log in", Toast.LENGTH_LONG).show();
+                GlobalClass.getInstance().clear();
+            }
+        } catch (Exception e) {
+            Log.d("Debug", "Failed query");
         }
     }
 
@@ -156,7 +186,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 profileImgUrl = account.getPhotoUrl().toString();
                 GlobalClass.getInstance().profileImgUrl = profileImgUrl;
             }
-            GlobalClass.getInstance().user = name;
+            GlobalClass.getInstance().name = name;
             GlobalClass.getInstance().email = email;
             GlobalClass.getInstance().LoginType = true;
             Toast.makeText(this, name, Toast.LENGTH_LONG).show();

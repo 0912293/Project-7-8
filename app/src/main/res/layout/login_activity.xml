@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:text="Email"
+        android:hint="Email"
         android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/userPasword"
         android:layout_alignStart="@+id/userPasword"
@@ -49,7 +49,7 @@
         android:layout_marginTop="34dp"
         android:ems="10"
         android:inputType="textPassword"
-        android:text="Password"
+        android:hint="Password"
         android:layout_below="@+id/userEmail"
         android:layout_centerHorizontal="true" />
 

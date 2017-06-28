@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -23,12 +24,14 @@ public class dbCon {
     String db = "Roadtrippies";
     String un = "Roadtrippies";
     String password = "Roadtrippies";
+    Connection conn;
+
     @SuppressLint("NewApi")
     public Connection CONN() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                 .permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        Connection conn = null;
+        conn = null;
         String ConnURL = null;
         try {
             Class.forName(classs);
@@ -46,7 +49,5 @@ public class dbCon {
         }
         return conn;
     }
-
-
 
 }
