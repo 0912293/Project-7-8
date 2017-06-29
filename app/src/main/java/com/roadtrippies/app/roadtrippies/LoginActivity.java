@@ -100,7 +100,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String img_url = account.getPhotoUrl().toString();
                 Glide.with(this).load(img_url).into(this.profile_picture);
             }
-
             this.name.setText(name);
             this.email.setText(email);
 
