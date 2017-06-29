@@ -66,22 +66,10 @@ public class ProximityActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.proximity_activity);
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        Button button = (Button) findViewById(R.id.testbutton);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createNotification();
-            }
-        });
-        Button button1 = (Button) findViewById(R.id.testbutton2);
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addressToNotification("Rotterdam Wijnhaven 99");
-            }
-        });
-
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        addressToNotification("Rotterdam Wijnhaven 99");
+
 
         try {
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
