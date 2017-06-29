@@ -41,7 +41,7 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
     private TextView resultTextView;
     private AIService aiService;
     private static final String TAG = "logMsg";
-    private List list = new ArrayList();
+    private ArrayList list = new ArrayList();
 
 
     @Override
@@ -101,10 +101,11 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
                 if(entry.getValue().toString().length()>3) {
                     if (entry.getKey().equals("genre")) {
                         Log.d("Debug", entry.getValue().toString());
-                        String genre = entry.getValue().toString();
+                        String genre = entry.getValue().toString().toLowerCase();
                         if (!genre.contains(",")){
                             genre = genre.substring(2, genre.length() - 2); //makes a substring from the genre substring
                             Log.d("Debug", genre);                          //send genre string to where you need it
+                            list.add(genre);
                         }else{
                             getGenre(genre);
                         }
@@ -112,17 +113,19 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
                             Log.d("Debug","List item "+i+": "+list.get(i).toString());
                         }
                         //#TODO Save list in globalclass and clear list
-                        intent.putExtra("genre", genre);
+
 
                     } else if (entry.getKey().equals("distance")) {
                         String amount = entry.getValue().toString();
                         amount = amount.substring(10, amount.indexOf(",")); //makes a substring from the amount part
                         Log.d("Debug", amount);                         //send amount string to where you need it
-                        String unit = entry.getValue().toString();
+                        String unit = entry.getValue().toString().toLowerCase();
                         unit = unit.substring(unit.indexOf(",") + 9,unit.length()-2);   //makes a substring from the unit part
                         Log.d("Debug", unit);                           //send unit string to where you need it
                         if(!unit.isEmpty()){
-                            startActivity(new Intent(this,MainActivity.class));
+                            intent.putStringArrayListExtra("list", list);
+
+                            startActivity(intent);
                         }
                     }
                 }
@@ -133,7 +136,7 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
                 Toast.LENGTH_LONG).show();
         //System.out.println(paraString);
         //Parser.ParseResult(paraString);
-        startActivity(intent);
+
     }
 
     public List getGenre(String entry){
