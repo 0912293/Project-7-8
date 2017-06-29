@@ -1,5 +1,5 @@
 package com.roadtrippies.app.roadtrippies;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -90,6 +90,7 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
                 "\nParameters: " + paraString);
 
         final HashMap<String, JsonElement> params = result.getParameters();
+        Intent intent = new Intent(getBaseContext(), EventActivity.class);
 
         if (params != null && !params.isEmpty()) {
             for (final Map.Entry<String, JsonElement> entry : params.entrySet()) {
@@ -99,6 +100,8 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
                         String genre = entry.getValue().toString();
                         genre = genre.substring(2, genre.length() - 2); //makes a substring from the genre substring
                         Log.d("Debug", genre);                          //send genre string to where you need it
+
+                        intent.putExtra("genre", genre);
                     } else if (entry.getKey().equals("distance")) {
                         String amount = entry.getValue().toString();
                         amount = amount.substring(10, amount.indexOf(",")); //makes a substring from the amount part
@@ -111,12 +114,14 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
             }
         }
 
+
+
         Toast.makeText(getApplicationContext(),
                 response.getResult().getFulfillment().getSpeech(),//.toString(),
                 Toast.LENGTH_LONG).show();
         //System.out.println(paraString);
         //Parser.ParseResult(paraString);
-
+        startActivity(intent);
     }
 
 

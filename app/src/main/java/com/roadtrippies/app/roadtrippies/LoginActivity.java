@@ -125,7 +125,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void dblogin(){
-        dbCon db = new dbCon();
+        DBCon db = new DBCon();
         db.CONN();
         Log.d("Debug","dblogin");
         String query = "SELECT dbo.users.password FROM dbo.users WHERE dbo.users.email = ?";
