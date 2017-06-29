@@ -38,6 +38,10 @@
         <activity
             android:name=".AssistantActivity"
             android:label="@string/title_activity_assistant"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".EventActivity"
+            android:label="@string/title_activity_event"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

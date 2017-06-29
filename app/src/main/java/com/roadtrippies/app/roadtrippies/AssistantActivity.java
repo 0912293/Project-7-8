@@ -114,8 +114,8 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
         Toast.makeText(getApplicationContext(),
                 response.getResult().getFulfillment().getSpeech(),//.toString(),
                 Toast.LENGTH_LONG).show();
-        System.out.println(paraString);
-        Parser.ParseResult(paraString);
+        //System.out.println(paraString);
+        //Parser.ParseResult(paraString);
 
     }
 
@@ -148,4 +148,6 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
         Log.i(TAG, "Listening finished");
         resultTextView.setText("Processing");
     }
+
+
 }

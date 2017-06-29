@@ -29,18 +29,19 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    //compile 'org.neo4j.driver:neo4j-java-driver:3.0.3'
+    // api.ai SDK dependencies
+    
+
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.android.support:design:24.2.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.android.gms:play-services-auth:9.0.0'
     compile 'com.github.bumptech.glide:glide:3.8.0'
-
-    //compile 'org.neo4j.driver:neo4j-java-driver:3.0.3'
     compile 'ai.api:libai:1.4.8'
     compile 'ai.api:sdk:2.0.5@aar'
-// api.ai SDK dependencies
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'commons-io:commons-io:2.4'
-
     testCompile 'junit:junit:4.12'
 }

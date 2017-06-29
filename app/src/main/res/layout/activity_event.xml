@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.roadtrippies.app.roadtrippies.EventActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/appBarLayout">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_event"
+        android:id="@+id/include"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/event_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/appBarLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Title" />
+
+    <TextView
+        android:id="@+id/event_loc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/event_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="17dp"
+        android:text="Location" />
+
+    <TextView
+        android:id="@+id/event_genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Genre"
+        android:layout_below="@+id/event_loc"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp" />
+
+    <TextView
+        android:id="@+id/event_club"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Club"
+        android:layout_below="@+id/event_genre"
+        android:layout_alignLeft="@+id/event_title"
+        android:layout_alignStart="@+id/event_title"
+        android:layout_marginTop="14dp" />
+
+    <TextView
+        android:id="@+id/event_dt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Event time and date"
+        android:layout_below="@+id/event_club"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>
