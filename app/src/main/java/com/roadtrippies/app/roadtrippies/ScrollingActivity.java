@@ -56,6 +56,8 @@ public class ScrollingActivity extends AppCompatActivity implements NavigationVi
                     eventlayout.addView(eventTextView);
                     setContentView(eventlayout);
                 }});
+            textView.setPadding(60,150,0,0);
+            textView.setTextSize(20);
             linearLayout.addView(textView);                     //adds the textview to the linearlayout
         }
         scroll.addView(linearLayout);                           //adds the linearlayout with textviews to the scroll view to make it scrollable
