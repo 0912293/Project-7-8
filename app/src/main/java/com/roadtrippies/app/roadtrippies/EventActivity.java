@@ -35,7 +35,7 @@ public class EventActivity extends AppCompatActivity {
         TextView evt_genre = (TextView) findViewById(R.id.event_genre);
         TextView evt_dt = (TextView) findViewById(R.id.event_dt);
 
-        
+
         ArrayList<String> genre = getIntent().getStringArrayListExtra("list");
 
         ArrayList<String> genrelist = new ArrayList<String>(new LinkedHashSet<String>(genre));
