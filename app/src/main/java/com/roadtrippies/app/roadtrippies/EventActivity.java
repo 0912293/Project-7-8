@@ -16,7 +16,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.stream.Collectors;
 
 public class EventActivity extends AppCompatActivity {
 
@@ -35,48 +34,24 @@ public class EventActivity extends AppCompatActivity {
         TextView evt_genre = (TextView) findViewById(R.id.event_genre);
         TextView evt_dt = (TextView) findViewById(R.id.event_dt);
 
+        Event event = (Event) getIntent().getExtras().getSerializable("event");
 
-        ArrayList<String> genre = getIntent().getStringArrayListExtra("list");
+        evt_title.setText(event.getName());
+        evt_loc.setText(event.getLocation());
+        evt_club.setText(event.getClub());
+        evt_genre.setText(event.getGenre());
+        evt_dt.setText(event.getTime());
 
-        ArrayList<String> genrelist = new ArrayList<String>(new LinkedHashSet<String>(genre));
-        ArrayList<Event> listofevents = getEventInfo(genrelist);
 
-        System.out.println(listofevents.size());
+        //ArrayList<String> genre = getIntent().getStringArrayListExtra("list");
+
+        //ArrayList<String> genrelist = new ArrayList<String>(new LinkedHashSet<String>(genre));
+        //ArrayList<Event> listofevents = getEventInfo(genrelist);
+
+
     }
 
 
 
-    private ArrayList<Event> getEventInfo(ArrayList<String> genre){
 
-        db.CONN();
-
-        ArrayList<Event> eventList = new ArrayList<>();
-        //ArrayList<ResultSet> rsList = new ArrayList<>();
-
-        String query = "SELECT * FROM dbo.events WHERE dbo.events.genre = ?";
-        ResultSet rs;
-
-        try {
-            for (String s : genre) {                    //runs query for every genre in genre list.
-                PreparedStatement preparedStmt = db.conn.prepareStatement(query);
-                preparedStmt.setString(1, s);
-                rs = preparedStmt.executeQuery();
-
-
-                while (rs.next()) {
-                    Event event = new Event();          //adds all items from the tablerow into Event object.
-                    event.setName(rs.getString(1));
-                    event.setClub(rs.getString(2));
-                    event.setLocation(rs.getString(3));
-                    event.setTime(rs.getString(4));
-                    event.setGenre(rs.getString(5));
-                    eventList.add(event);
-                }
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-
-        return eventList;                               //returns list of Event objects.
-    }
 }

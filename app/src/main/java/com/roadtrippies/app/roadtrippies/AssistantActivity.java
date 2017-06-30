@@ -94,7 +94,7 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
                 "\nParameters: " + paraString);
 
         final HashMap<String, JsonElement> params = result.getParameters();
-        Intent intent = new Intent(getBaseContext(), EventActivity.class);
+        Intent intent = new Intent(getBaseContext(), ScrollingActivity.class);
 
         if (params != null && !params.isEmpty()) {
             for (final Map.Entry<String, JsonElement> entry : params.entrySet()) {
@@ -122,7 +122,7 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
                         String unit = entry.getValue().toString().toLowerCase();
                         unit = unit.substring(unit.indexOf(",") + 9,unit.length()-2);   //makes a substring from the unit part
                         Log.d("Debug", unit);                           //send unit string to where you need it
-                        if(!unit.isEmpty()){
+                        if(!unit.isEmpty() && !list.isEmpty()){
 
                             intent.putStringArrayListExtra("list", list);
 

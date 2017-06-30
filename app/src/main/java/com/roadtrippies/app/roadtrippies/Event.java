@@ -1,10 +1,12 @@
 package com.roadtrippies.app.roadtrippies;
 
+import java.io.Serializable;
+
 /**
  * Created by jesse on 29-6-2017.
  */
 
-public class Event {
+public class Event implements Serializable{
 
     private String name;
     private String location;
