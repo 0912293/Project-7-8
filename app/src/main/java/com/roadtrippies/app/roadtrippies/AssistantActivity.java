@@ -123,6 +123,7 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
                         unit = unit.substring(unit.indexOf(",") + 9,unit.length()-2);   //makes a substring from the unit part
                         Log.d("Debug", unit);                           //send unit string to where you need it
                         if(!unit.isEmpty()){
+
                             intent.putStringArrayListExtra("list", list);
 
                             startActivity(intent);

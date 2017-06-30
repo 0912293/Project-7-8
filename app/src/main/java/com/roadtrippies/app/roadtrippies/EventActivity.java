@@ -9,11 +9,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.stream.Collectors;
 
 public class EventActivity extends AppCompatActivity {
 
@@ -32,67 +35,48 @@ public class EventActivity extends AppCompatActivity {
         TextView evt_genre = (TextView) findViewById(R.id.event_genre);
         TextView evt_dt = (TextView) findViewById(R.id.event_dt);
 
+        
         ArrayList<String> genre = getIntent().getStringArrayListExtra("list");
-        //System.out.println(getEventInfo(genre).toString());
-        try {
-            printResultset(getEventInfo(genre));
-        } catch (SQLException e) {
 
-        }
-//        Event event = new Event();
-//        event.setName("Nachtcollege");
-//        event.setLocation("Kruiskade");
-//        event.setGenre("Fuckboymuziek");
-//        event.setClub("Villa thalia");
-//        event.setTime("5 august");
-//
-//        evt_title.setText(event.getName());
-//        evt_loc.setText(event.getLocation());
-//        evt_club.setText(event.getClub());
-//        evt_dt.setText(event.getTime());
-//        evt_genre.setText(event.getGenre());
+        ArrayList<String> genrelist = new ArrayList<String>(new LinkedHashSet<String>(genre));
+        ArrayList<Event> listofevents = getEventInfo(genrelist);
+
+        System.out.println(listofevents.size());
     }
 
 
-    private ResultSet getEventInfo(ArrayList<String> genre) {
+
+    private ArrayList<Event> getEventInfo(ArrayList<String> genre){
 
         db.CONN();
 
+        ArrayList<Event> eventList = new ArrayList<>();
+        //ArrayList<ResultSet> rsList = new ArrayList<>();
 
         String query = "SELECT * FROM dbo.events WHERE dbo.events.genre = ?";
-        ResultSet rs = null;
+        ResultSet rs;
+
         try {
-            for (String s : genre) {
+            for (String s : genre) {                    //runs query for every genre in genre list.
                 PreparedStatement preparedStmt = db.conn.prepareStatement(query);
                 preparedStmt.setString(1, s);
                 rs = preparedStmt.executeQuery();
 
+
+                while (rs.next()) {
+                    Event event = new Event();          //adds all items from the tablerow into Event object.
+                    event.setName(rs.getString(1));
+                    event.setClub(rs.getString(2));
+                    event.setLocation(rs.getString(3));
+                    event.setTime(rs.getString(4));
+                    event.setGenre(rs.getString(5));
+                    eventList.add(event);
+                }
             }
-        } catch (SQLException e) {
+        }catch (SQLException e){
             e.printStackTrace();
         }
 
-        return rs;
-    }
-
-    private void printResultset(ResultSet rs) throws SQLException {
-
-        try {
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int column = rsmd.getColumnCount();
-            while (rs.next()) {
-                for (int i = 1; i < column; i++) {
-                    if (i > 1) {
-                        System.out.print(", ");
-                    }
-                    String columnvalue = rs.getString(i);
-                    System.out.println(columnvalue + " " + rsmd.getColumnName(i));
-
-                }
-            }
-        } catch (SQLException e) {
-            Log.d("Resultquery", "failed query");
-        }
-        System.out.println("");
+        return eventList;                               //returns list of Event objects.
     }
 }
