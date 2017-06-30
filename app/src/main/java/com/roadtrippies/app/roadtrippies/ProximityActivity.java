@@ -22,6 +22,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,8 +40,9 @@ public class ProximityActivity extends Activity {
     protected NotificationManager notificationManager;
     protected NotificationCompat.Builder mBuilder;
     protected Intent resultIntent;
+    private List<String> addresses;
 
-    private class MyLocationListener implements LocationListener {
+    public class MyLocationListener implements LocationListener {
         @Override
         public void onLocationChanged(Location location) {
             Log.d("MyLocation", "Lng: " + location.getLongitude() + " Lat: " + location.getLatitude());
@@ -65,11 +69,14 @@ public class ProximityActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.proximity_activity);
+        moveTaskToBack(true);
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        addressToNotification("Rotterdam Wijnhaven 99");
-
+        addresses = getAddressesFromEvents();
+        for (String str : addresses) {
+            addressToNotification(str);
+        }
 
         try {
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -147,8 +154,40 @@ public class ProximityActivity extends Activity {
 
     public void addressToNotification(String addressStr){
         createNotification();
+        if (getLocationFromAddress(addressStr) == null){
+            int a = 1+1;
+        } else {
         checkProximity((float) getLocationFromAddress(addressStr).getLongitude(),
                 (float) getLocationFromAddress(addressStr).getLatitude());
+        }
+    }
+
+    public List<String> getAddressesFromEvents(){
+        List<String> eventList = new ArrayList<String>();
+        ResultSet rs;
+        int x = 1;
+        dbCon db = new dbCon();
+        db.CONN();
+        String query = "SELECT dbo.events.address FROM dbo.events";
+
+        try{
+            PreparedStatement preparedStmt = db.conn.prepareStatement(query);
+            Log.d("Debug",preparedStmt.toString());
+            rs = preparedStmt.executeQuery();
+        } catch (Exception e){
+            rs = null;
+            Log.d("Debug", e.getMessage());
+        }
+        try {
+            if (rs != null) {
+                while (rs.next()) {
+                    eventList.add(rs.getString(x));
+                }
+            }
+        } catch (Exception e) {
+            Log.d("Debug", e.getMessage());
+        }
+        return eventList;
     }
 
     public class MyReceiver extends BroadcastReceiver {
