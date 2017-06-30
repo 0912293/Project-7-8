@@ -77,9 +77,8 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
     @Override
     public void onResult(AIResponse response) {
         Result result = response.getResult();
-
         //Get parameters
-
+        
         String paraString = "";
         if (result.getParameters() != null && !result.getParameters().isEmpty()) {
             for (final Map.Entry<String, JsonElement> entry : result.getParameters().entrySet()) {
