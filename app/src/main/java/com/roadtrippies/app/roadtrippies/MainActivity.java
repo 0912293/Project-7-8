@@ -13,6 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -23,8 +27,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +45,18 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View hView =  navigationView.getHeaderView(0);
+        TextView nav_user = (TextView)hView.findViewById(R.id.headerTitleTV);
+        TextView nar_email = (TextView)hView.findViewById(R.id.headerEmailTV);
+        ImageView nav_image = (ImageView) hView.findViewById(R.id.nav_image);
+        if (GlobalClass.getInstance().name!=null && !GlobalClass.getInstance().name.isEmpty()) {
+            nav_user.setText(GlobalClass.getInstance().name);
+            nar_email.setText(GlobalClass.getInstance().email);
+            if(GlobalClass.getInstance().profileImgUrl!=null) {
+                Glide.with(this).load(GlobalClass.getInstance().profileImgUrl).into(nav_image);
+            }
+        }
     }
 
     @Override

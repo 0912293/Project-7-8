@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private LinearLayout profile_section;
     private Button signOut, btn_signin, btn_create;
     private SignInButton GsignIn;
-    private TextView name, email, useremail, password, google,create;
+    private TextView name, email, useremail, password, google,create, headerTitle, headerEmail;
     private ImageView profile_picture;
     private GoogleApiClient googleApiClient;
     private String profileImgUrl;
@@ -47,6 +47,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             setSupportActionBar(toolbar);
             GsignIn = (SignInButton) findViewById(R.id.g_signIn);
             btn_create = (Button)findViewById(R.id.btn_to_create);
+
+            headerEmail = (TextView) findViewById(R.id.headerEmailTV);
+            headerTitle = (TextView) findViewById(R.id.headerTitleTV);
 
             btn_signin = (Button)findViewById(R.id.btn_signin);
             name = (TextView) findViewById(R.id.profile_name);
