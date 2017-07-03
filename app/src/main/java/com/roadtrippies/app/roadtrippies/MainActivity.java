@@ -1,5 +1,7 @@
 package com.roadtrippies.app.roadtrippies;
 
+import android.*;
+import android.Manifest;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -17,6 +19,8 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -53,23 +57,16 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        new AsyncDownload(getBaseContext()).execute("");
 
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getBaseContext(), ScrollingActivity.class));
-            }
-        });
-        Button evt_btn = (Button) findViewById(R.id.evt_btn);
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},3);
+        int permissionCheck = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        if(permissionCheck != -1) {
+            new AsyncDownload(getBaseContext()).execute("");
+        }
 
-        evt_btn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                startActivity(new Intent(getBaseContext(), EventActivity.class));
-            }
-        });
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -190,6 +187,7 @@ public class MainActivity extends AppCompatActivity
             try {
                 Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             } catch (SecurityException se){
+
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(intent);
             }
@@ -198,9 +196,7 @@ public class MainActivity extends AppCompatActivity
 
         private void addressToNotification(String addressStr){
             createNotification(addressStr);
-            if (getLocationFromAddress(addressStr) == null){
-                int a = 1+1;
-            } else {
+            if (getLocationFromAddress(addressStr) != null){
                 try {
                     checkProximity((float) getLocationFromAddress(addressStr).getLongitude(),
                             (float) getLocationFromAddress(addressStr).getLatitude());
