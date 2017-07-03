@@ -4,7 +4,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.Address;
@@ -19,20 +18,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -140,17 +134,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     private class AsyncDownload extends AsyncTask<String, Void, Integer> {
-        private Context context;
         private final String PROX_ALERT_INTENT = "PROX_ALERT_INTENT";
-
-        protected LocationManager locationManager;
-        protected LocationListener locationListener;
-        protected NotificationManager notificationManager;
-        protected NotificationCompat.Builder mBuilder;
-        protected Intent resultIntent;
+        private Context context;
+        private LocationManager locationManager;
+        private LocationListener locationListener;
+        private NotificationManager notificationManager;
+        private NotificationCompat.Builder mBuilder;
+        private Intent resultIntent;
         private List<String> addresses;
 
-        public AsyncDownload(Context context){
+        private AsyncDownload(Context context){
             this.context = context;
         }
 
@@ -159,11 +152,12 @@ public class MainActivity extends AppCompatActivity
             notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
+            addressToNotification("Rotterdam Wijnhaven 99");
+
             addresses = getAddressesFromEvents();
             for (String str : addresses) {
                 addressToNotification(str);
             }
-
             try {
                 Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             } catch (SecurityException se){
@@ -173,7 +167,46 @@ public class MainActivity extends AppCompatActivity
             return 1;
         }
 
-        private void addProximityAlert(double lat, double lng){
+        private void addressToNotification(String addressStr){
+            createNotification();
+            if (getLocationFromAddress(addressStr) == null){
+                int a = 1+1;
+            } else {
+                try {
+                    checkProximity((float) getLocationFromAddress(addressStr).getLongitude(),
+                            (float) getLocationFromAddress(addressStr).getLatitude());
+                } catch (NullPointerException e) {
+                    Log.d("Debug", e.getMessage());
+                }
+            }
+        }
+
+        private void createNotification(){
+            mBuilder = new NotificationCompat.Builder(context)
+                    .setSmallIcon(R.drawable.ic_explore)
+                    .setContentTitle("Event Nearby!")
+                    .setContentText("You're near an event!")
+                    .setAutoCancel(true);
+            resultIntent = new Intent(context, AssistantActivity.class);
+            PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            mBuilder.setContentIntent(resultPendingIntent);
+        }
+
+        private void checkProximity(float longitude, float latitude){
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            Intent intent = new Intent();
+            PendingIntent pIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent,
+                    PendingIntent.FLAG_CANCEL_CURRENT);
+            try {
+                Log.d("Prox", "Trying");
+                addAlert(latitude, longitude);
+            } catch (SecurityException se) {
+                Log.d("Prox", "security exception");
+            }
+        }
+
+        private void addAlert(double lat, double lng){
             Intent intent = new Intent(PROX_ALERT_INTENT);
             PendingIntent proxIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
@@ -189,47 +222,20 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        private void checkProximity(float longitude, float latitude){
-            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            Intent intent = new Intent();
-            PendingIntent pIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent,
-                    PendingIntent.FLAG_CANCEL_CURRENT);
-            try {
-                Log.d("Prox", "Trying");
-                addProximityAlert(latitude, longitude);
-            } catch (SecurityException se) {
-                Log.d("Prox", "security exception");
-            }
-        }
-        protected void createNotification(){
-            mBuilder = new NotificationCompat.Builder(context)
-                    .setSmallIcon(R.drawable.ic_explore)
-                    .setContentTitle("Event Nearby!")
-                    .setContentText("You're near an event!")
-                    .setAutoCancel(true);
-            resultIntent = new Intent(context, AssistantActivity.class);
-            PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-            mBuilder.setContentIntent(resultPendingIntent);
-        }
-
-        public Address getLocationFromAddress(String strAddress){
+        private Address getLocationFromAddress(String strAddress){
             Geocoder geocoder = new Geocoder(context);
-            List<Address> address;
-            Location loc;
+            List<Address> addresses;
+            Address address;
 
             try {
-                address = geocoder.getFromLocationName(strAddress, 5);
-                if (address.get(0) == null){
+                addresses = geocoder.getFromLocationName(strAddress, 5);
+                if (addresses.get(0) == null){
                     Log.d("LocFromAddress", "address returns null");
                     return null;
                 }
-                Address location = address.get(0);
+                address = addresses.get(0);
 
-                location.getLatitude();
-                location.getLongitude();
-
-                return location;
+                return address;
 
             } catch (Exception e) {
                 Log.d("Address to Lat/Lng", e.getMessage());
@@ -237,18 +243,8 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        public void addressToNotification(String addressStr){
-            createNotification();
-            if (getLocationFromAddress(addressStr) == null){
-                int a = 1+1;
-            } else {
-                checkProximity((float) getLocationFromAddress(addressStr).getLongitude(),
-                        (float) getLocationFromAddress(addressStr).getLatitude());
-            }
-        }
-
-        public List<String> getAddressesFromEvents(){
-            List<String> eventList = new ArrayList<String>();
+        private List<String> getAddressesFromEvents(){
+            List<String> eventList = new ArrayList<>();
             ResultSet rs;
             int x = 1;
             dbCon db = new dbCon();
@@ -286,16 +282,16 @@ public class MainActivity extends AppCompatActivity
 
                 if (entering) {
                     Log.d("Debug", "entering");
+                    notificationManager.notify(NOTIF_ID, mBuilder.build());
                 } else {
                     Log.d("Debug", "exiting");
                     notificationManager.cancel(NOTIF_ID);
-                    return;
                 }
 
-                notificationManager.notify(NOTIF_ID, mBuilder.build());
             }
 
         }
 
     }
+
 }
