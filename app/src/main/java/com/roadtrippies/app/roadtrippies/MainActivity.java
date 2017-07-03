@@ -124,8 +124,6 @@ public class MainActivity extends AppCompatActivity
 
             /* Send it off to the Activity-Chooser */
             startActivity(emailIntent);
-        } else if (id == R.id.nav_notification_test) {
-            startActivity(new Intent(getBaseContext(), ProximityActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -153,6 +151,7 @@ public class MainActivity extends AppCompatActivity
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
             addressToNotification("Rotterdam Wijnhaven 99");
+            addressToNotification("Rotterdam Glashaven 6");
 
             addresses = getAddressesFromEvents();
             for (String str : addresses) {
@@ -168,7 +167,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         private void addressToNotification(String addressStr){
-            createNotification();
+            createNotification(addressStr);
             if (getLocationFromAddress(addressStr) == null){
                 int a = 1+1;
             } else {
@@ -181,11 +180,11 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        private void createNotification(){
+        private void createNotification(String addressStr){
             mBuilder = new NotificationCompat.Builder(context)
                     .setSmallIcon(R.drawable.ic_explore)
                     .setContentTitle("Event Nearby!")
-                    .setContentText("You're near an event!")
+                    .setContentText("You're near an event")
                     .setAutoCancel(true);
             resultIntent = new Intent(context, AssistantActivity.class);
             PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent,
