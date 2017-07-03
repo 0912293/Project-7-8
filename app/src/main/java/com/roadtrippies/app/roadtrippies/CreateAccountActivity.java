@@ -17,7 +17,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
     private EditText userEmail, userName, userPass;
     private Button btn_create;
-    dbCon db = new dbCon();
+    DBCon db = new DBCon();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -166,7 +166,7 @@ public class ProximityActivity extends Activity {
         List<String> eventList = new ArrayList<String>();
         ResultSet rs;
         int x = 1;
-        dbCon db = new dbCon();
+        DBCon db = new DBCon();
         db.CONN();
         String query = "SELECT dbo.events.address FROM dbo.events";
 

@@ -13,6 +13,7 @@ public class GlobalClass {
     public String email, name,profileImgUrl,pass;
     public GoogleApiClient googleApiClient;
 
+    
 
     protected GlobalClass(){}
 

@@ -46,18 +46,21 @@
             android:label="@string/title_activity_assistant"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".EventActivity"
+            android:label="@string/title_activity_event"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".CreateAccountActivity"
             android:label="@string/title_activity_create_account"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ProximityActivity"
-            android:label="ProximityActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-
         <service
             android:name=".ProximityService"
             android:enabled="true"
             android:exported="true"></service>
+        <activity
+            android:name=".ScrollingActivity"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
