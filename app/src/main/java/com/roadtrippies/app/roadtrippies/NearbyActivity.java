@@ -64,8 +64,8 @@ public class NearbyActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private void getInfoFromDB() {
         dbConnection.CONN();
-        String a_q = "SELECT TOP 5 dbo.events.address FROM dbo.events";
-        String n_q = "SELECT TOP 5 dbo.events.event FROM dbo.events";
+        String a_q = "SELECT TOP 50 dbo.events.address FROM dbo.events";
+        String n_q = "SELECT TOP 50 dbo.events.event FROM dbo.events";
 
         try {
             Statement stmt_a = dbConnection.conn.createStatement();
@@ -98,9 +98,9 @@ public class NearbyActivity extends AppCompatActivity implements OnMapReadyCallb
         }
 
         gMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-        RadiusBar = (SeekBar)findViewById(R.id.seekBar);
+        RadiusBar = (SeekBar) findViewById(R.id.seekBar);
 
-        if(myLocation != null) {
+        if (myLocation != null) {
             circle = gMap.addCircle(new CircleOptions()
                     .center(new LatLng(myLocation.getLatitude(), myLocation.getLongitude()))
                     .radius(0)
@@ -111,7 +111,7 @@ public class NearbyActivity extends AppCompatActivity implements OnMapReadyCallb
         RadiusBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if(circle != null) {
+                if (circle != null) {
                     circle.setRadius(i * 75);
                     rad = i * 75;
                 }
@@ -128,12 +128,14 @@ public class NearbyActivity extends AppCompatActivity implements OnMapReadyCallb
                 GoogleMap map = gMap;
                 int i = 0;
                 for (String item : list_a) {
-                    temp.setLatitude(getLocationFromAddress(getApplicationContext(), item).latitude);
-                    temp.setLongitude(getLocationFromAddress(getApplicationContext(), item).longitude);
+                    if(getLocationFromAddress(getApplicationContext(), item) != null) {
+                        temp.setLatitude(getLocationFromAddress(getApplicationContext(), item).latitude);
+                        temp.setLongitude(getLocationFromAddress(getApplicationContext(), item).longitude);
 
-                    if(myLocation.distanceTo(temp) < circle.getRadius()) {
-                        map.addMarker(new MarkerOptions().position(getLocationFromAddress(getApplicationContext(), item)).title(list_n.get(i)));
-                        i++;
+                        if (myLocation.distanceTo(temp) < circle.getRadius()) {
+                            map.addMarker(new MarkerOptions().position(getLocationFromAddress(getApplicationContext(), item)).title(list_n.get(i)));
+                            i++;
+                        }
                     }
                 }
             }
