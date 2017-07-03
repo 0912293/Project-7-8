@@ -11,7 +11,7 @@ import java.sql.SQLException;
  * Created by Kevin on 26/06/2017.
  */
 
-public class dbCon {
+public class DBCon {
     String ip = "145.24.222.174:1433";
     String classs = "net.sourceforge.jtds.jdbc.Driver";
     String db = "Roadtrippies";

@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -24,6 +25,8 @@ import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.w3c.dom.Text;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -38,7 +41,7 @@ import java.util.List;
 
 public class NearbyActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private dbCon dbConnection = new dbCon();
+    private DBCon dbConnection = new DBCon();
     List<String> list_a = new ArrayList<>();
     List<String> list_n = new ArrayList<>();
 
