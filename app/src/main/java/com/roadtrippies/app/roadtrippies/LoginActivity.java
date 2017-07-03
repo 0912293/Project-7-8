@@ -40,7 +40,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //#TODO  Handle login types aka google login and normal login
         if (!GlobalClass.getInstance().LoggedIn) {
             setContentView(R.layout.login_activity);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -75,6 +74,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             email.setText(GlobalClass.getInstance().email);
 
             if(GlobalClass.getInstance().profileImgUrl!=null) {
+                profile_picture.setVisibility(View.VISIBLE);
                 Glide.with(this).load(GlobalClass.getInstance().profileImgUrl).into(this.profile_picture); //gets profile pic
             }
             signOut.setOnClickListener(this);
@@ -113,7 +113,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void signIn(boolean type)
-    {//#TODO handle normal logins as well
+    {
         if(type) {
             Intent i = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
             Log.d("Debug", "Passed GsignIn()");
@@ -125,18 +125,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void dblogin(){
-        dbCon db = new dbCon();
+        DBCon db = new DBCon();
         db.CONN();
         Log.d("Debug","dblogin");
-        String query = "SELECT dbo.users.password FROM dbo.users WHERE dbo.users.email = ?";
+        String query = "SELECT * FROM dbo.users WHERE dbo.users.email = ?";
+//        String query = "SELECT dbo.users.password FROM dbo.users WHERE dbo.users.email = ?";
         try {
             PreparedStatement preparedStmt = db.conn.prepareStatement(query);
-            preparedStmt.setString(1, password.getText().toString());
+            preparedStmt.setString(1, useremail.getText().toString());
             Log.d("Debug",preparedStmt.toString());
             ResultSet rs = preparedStmt.executeQuery();
             if(rs.next()){
                 if (password.getText().toString().equals(rs.getString("password"))) {
                     Log.d("Debug", "1");
+                    GlobalClass.getInstance().name = rs.getString("name");
                     GlobalClass.getInstance().email = useremail.getText().toString();
                     GlobalClass.getInstance().pass = password.getText().toString();
                     GlobalClass.getInstance().LoggedIn = true;
@@ -227,4 +229,3 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 }
-

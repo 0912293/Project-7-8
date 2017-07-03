@@ -25,21 +25,49 @@ public class Parser {
 //        keywords.add("where");
 //        keywords.add("when");
 
-        List<String> allMatches = new ArrayList<>();
+        ArrayList<String> stringMatches = new ArrayList<>();
+        ArrayList<Integer> intMatches = new ArrayList<>();
         Matcher m = Pattern.compile("\".*?\"").matcher(string_to_parse);
+        Matcher m2 = Pattern.compile("\\d+").matcher(string_to_parse);
 
         while (m.find())
-
         {
-            allMatches.add(m.group());
-
+            stringMatches.add(m.group());
         }
 
-        Iterator<String> iterator = allMatches.iterator();
-        while (iterator.hasNext())
-
+        while (m2.find())
         {
-            System.out.println(iterator.next());
+            intMatches.add(Integer.parseInt(m2.group()));
         }
+        ;
+        showStrings(deleteUnwanted(stringMatches));
+        showInts(intMatches);
+    }
+
+    private static void showStrings (List<String> list){
+        for (String s : list) {
+
+            System.out.println(s);
+        }
+    }
+
+    private static void showInts (List<Integer> list){
+        for (Integer i : list) {
+            System.out.println(i);
+        }
+    }
+
+    private static ArrayList<String> deleteUnwanted (ArrayList<String> list){
+        ArrayList<String> words = new ArrayList<>();
+        words.add("amount");
+        words.add("unit");
+
+        for (String s: list) {
+            if (words.contains(s)){
+                list.remove(s);
+            }
+        }
+
+        return list;
     }
 }
