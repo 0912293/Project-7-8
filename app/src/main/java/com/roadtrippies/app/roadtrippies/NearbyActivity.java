@@ -43,8 +43,11 @@ public class NearbyActivity extends AppCompatActivity implements OnMapReadyCallb
     List<String> list_n = new ArrayList<>();
 
     private SeekBar RadiusBar;
-    LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-    Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    Circle circle;
+    int rad = 0;
+
+    LocationManager mLocationManager;
+    Location myLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,12 @@ public class NearbyActivity extends AppCompatActivity implements OnMapReadyCallb
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        myLocation = getLastKnownLocation();
+
+        getInfoFromDB();
+    }
+
+    private void getInfoFromDB() {
         dbConnection.CONN();
         String a_q = "SELECT TOP 5 dbo.events.address FROM dbo.events";
         String n_q = "SELECT TOP 5 dbo.events.event FROM dbo.events";
@@ -82,40 +91,30 @@ public class NearbyActivity extends AppCompatActivity implements OnMapReadyCallb
     }
 
     @Override
-    public void onMapReady(GoogleMap gMap) {
+    public void onMapReady(final GoogleMap gMap) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             gMap.setMyLocationEnabled(true);
         }
 
         gMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-
-        int i = 0;
-        int rad = 0;
-
-        Location temp = new Location(LocationManager.GPS_PROVIDER);
-
-        for (String item : list_a) {
-            temp.setLatitude(getLocationFromAddress(this,item).latitude);
-            temp.setLongitude(getLocationFromAddress(this, item).longitude);
-
-            if(location.distanceTo(temp) < rad)
-            gMap.addMarker(new MarkerOptions().position(getLocationFromAddress(this, item)).title(list_n.get(i)));
-            i++;
-        }
-
         RadiusBar = (SeekBar)findViewById(R.id.seekBar);
 
-        final Circle circle = gMap.addCircle(new CircleOptions()
-                .center(new LatLng(location.getLatitude(), location.getLongitude()))
-                .radius(0)
-                .strokeColor(Color.argb(255, 0, 255, 0))
-                .fillColor(Color.argb(50, 0, 255, 0)));
+        if(myLocation != null) {
+            circle = gMap.addCircle(new CircleOptions()
+                    .center(new LatLng(myLocation.getLatitude(), myLocation.getLongitude()))
+                    .radius(0)
+                    .strokeColor(Color.argb(255, 0, 255, 0))
+                    .fillColor(Color.argb(50, 0, 255, 0)));
+        }
 
         RadiusBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                circle.setRadius(i * 75);
+                if(circle != null) {
+                    circle.setRadius(i * 75);
+                    rad = i * 75;
+                }
             }
 
             @Override
@@ -125,7 +124,18 @@ public class NearbyActivity extends AppCompatActivity implements OnMapReadyCallb
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Toast.makeText(getApplicationContext(), "PONG", Toast.LENGTH_LONG);
+                Location temp = new Location(LocationManager.GPS_PROVIDER);
+                GoogleMap map = gMap;
+                int i = 0;
+                for (String item : list_a) {
+                    temp.setLatitude(getLocationFromAddress(getApplicationContext(), item).latitude);
+                    temp.setLongitude(getLocationFromAddress(getApplicationContext(), item).longitude);
+
+                    if(myLocation.distanceTo(temp) < circle.getRadius()) {
+                        map.addMarker(new MarkerOptions().position(getLocationFromAddress(getApplicationContext(), item)).title(list_n.get(i)));
+                        i++;
+                    }
+                }
             }
         });
     }
@@ -157,28 +167,20 @@ public class NearbyActivity extends AppCompatActivity implements OnMapReadyCallb
 
     }
 
-    public double CalculationByDistance(LatLng StartP, LatLng EndP) {
-        int Radius = 6371;// radius of earth in Km
-        double lat1 = StartP.latitude;
-        double lat2 = EndP.latitude;
-        double lon1 = StartP.longitude;
-        double lon2 = EndP.longitude;
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-                + Math.cos(Math.toRadians(lat1))
-                * Math.cos(Math.toRadians(lat2)) * Math.sin(dLon / 2)
-                * Math.sin(dLon / 2);
-        double c = 2 * Math.asin(Math.sqrt(a));
-        double valueResult = Radius * c;
-        double km = valueResult / 1;
-        DecimalFormat newFormat = new DecimalFormat("####");
-        int kmInDec = Integer.valueOf(newFormat.format(km));
-        double meter = valueResult % 1000;
-        int meterInDec = Integer.valueOf(newFormat.format(meter));
-        Log.i("Radius Value", "" + valueResult + "   KM  " + kmInDec
-                + " Meter   " + meterInDec);
-
-        return Radius * c;
+    private Location getLastKnownLocation() {
+        mLocationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            Location l = mLocationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
     }
 }
