@@ -23,5 +23,7 @@
         completions."
     </string>
     <string name="title_activity_assistant">AssistantActivity</string>
+    <string name="title_activity_event">EventActivity</string>
     <string name="title_activity_create_account">CreateAccountActivity</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
 </resources>
