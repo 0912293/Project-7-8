@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity
             nav_user.setText(GlobalClass.getInstance().name);
             nar_email.setText(GlobalClass.getInstance().email);
             if(GlobalClass.getInstance().profileImgUrl!=null) {
+                nav_image.setVisibility(View.VISIBLE);
                 Glide.with(this).load(GlobalClass.getInstance().profileImgUrl).into(nav_image);
             }
         }
