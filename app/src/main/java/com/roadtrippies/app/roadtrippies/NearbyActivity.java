@@ -64,8 +64,8 @@ public class NearbyActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private void getInfoFromDB() {
         dbConnection.CONN();
-        String a_q = "SELECT TOP 50 dbo.events.address FROM dbo.events";
-        String n_q = "SELECT TOP 50 dbo.events.event FROM dbo.events";
+        String a_q = "SELECT TOP 10 dbo.events.address FROM dbo.events";
+        String n_q = "SELECT TOP 10 dbo.events.event FROM dbo.events";
 
         try {
             Statement stmt_a = dbConnection.conn.createStatement();
