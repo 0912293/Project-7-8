@@ -37,8 +37,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
+import com.bumptech.glide.Glide;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -74,6 +78,19 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View hView =  navigationView.getHeaderView(0);
+        TextView nav_user = (TextView)hView.findViewById(R.id.headerTitleTV);
+        TextView nar_email = (TextView)hView.findViewById(R.id.headerEmailTV);
+        ImageView nav_image = (ImageView) hView.findViewById(R.id.nav_image);
+        if (GlobalClass.getInstance().name!=null && !GlobalClass.getInstance().name.isEmpty()) {
+            nav_user.setText(GlobalClass.getInstance().name);
+            nar_email.setText(GlobalClass.getInstance().email);
+            if(GlobalClass.getInstance().profileImgUrl!=null) {
+                nav_image.setVisibility(View.VISIBLE);
+                Glide.with(this).load(GlobalClass.getInstance().profileImgUrl).into(nav_image);
+            }
+        }
     }
 
     @Override

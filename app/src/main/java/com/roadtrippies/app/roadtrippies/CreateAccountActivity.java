@@ -78,7 +78,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                     ps.setString(2, GlobalClass.getInstance().pass);
                     ps.setString(3, GlobalClass.getInstance().name);
                     Log.d("Debug", "8");
-                    preparedStmt.execute();
+                    ps.execute();
                     Toast.makeText(this, "Account created and logged in", Toast.LENGTH_LONG).show();
                     Log.d("Debug", "Success");
                     GlobalClass.getInstance().LoggedIn = true;
