@@ -8,4 +8,38 @@
     tools:context="com.roadtrippies.app.roadtrippies.MainActivity"
     tools:showIn="@layout/app_bar_main_activity">
 
+    <RelativeLayout
+        android:layout_width="367dp"
+        android:layout_height="567dp"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="221dp"
+            android:layout_height="152dp"
+            android:text="Welcome, roadtrippies is currently still in development and has not been completed yet. Because of this it is still missing features currently."
+            tools:layout_editor_absoluteX="82dp"
+            tools:layout_editor_absoluteY="131dp"
+            android:layout_marginTop="104dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/microphone_control"
+            tools:layout_editor_absoluteX="296dp"
+            tools:layout_editor_absoluteY="500dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="57dp"
+            android:layout_marginEnd="57dp"
+            android:layout_marginBottom="44dp" />
+    </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>

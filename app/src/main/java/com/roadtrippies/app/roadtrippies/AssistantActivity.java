@@ -87,10 +87,7 @@ public class AssistantActivity extends AppCompatActivity implements AIListener {
         }
 
         // Show results in TextView.
-        resultTextView.setText(response.getResult().getFulfillment().getSpeech()+//.toString()+
-                "\n\n\nQuery:" + result.getResolvedQuery() +
-                "\nAction: " + result.getAction() +
-                "\nParameters: " + paraString);
+        resultTextView.setText("You asked for:" + result.getResolvedQuery() +"\n\n\n"+response.getResult().getFulfillment().getSpeech());
 
         final HashMap<String, JsonElement> params = result.getParameters();
         Intent intent = new Intent(getBaseContext(), ScrollingActivity.class);

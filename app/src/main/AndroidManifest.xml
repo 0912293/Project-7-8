@@ -31,7 +31,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAax_nBZb5lALRZiQS0vH8eSJTl3Tbs0mE"/>
+            android:value="AIzaSyAax_nBZb5lALRZiQS0vH8eSJTl3Tbs0mE" />
 
         <activity
             android:name=".MainActivity"
@@ -46,15 +46,15 @@
         <activity
             android:name=".NearbyActivity"
             android:label="@string/title_activity_nearby"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AssistantActivity"
             android:label="@string/title_activity_assistant"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EventActivity"
             android:label="@string/title_activity_event"
@@ -63,14 +63,19 @@
             android:name=".CreateAccountActivity"
             android:label="@string/title_activity_create_account"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <service
             android:name=".ProximityService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
         <activity
             android:name=".ScrollingActivity"
             android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".ListActivity" />
+        <activity android:name=".FriendsActivity"></activity>
     </application>
 
 </manifest>

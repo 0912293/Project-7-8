@@ -2,11 +2,9 @@ package com.roadtrippies.app.roadtrippies;
 
 import android.*;
 import android.Manifest;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+import android.app.*;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.Address;
@@ -68,6 +66,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -76,6 +75,14 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getBaseContext(), AssistantActivity.class));
+            }
+        });
 
         View hView =  navigationView.getHeaderView(0);
         TextView nav_user = (TextView)hView.findViewById(R.id.headerTitleTV);
@@ -134,12 +141,11 @@ public class MainActivity extends AppCompatActivity
             startActivity(mapIntent);
 
         } else if (id == R.id.nav_events) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_virtual) {
-            startActivity(new Intent(getBaseContext(), AssistantActivity.class));
-        } else if (id == R.id.nav_login) {
+            startActivity(new Intent(getBaseContext(), ListActivity.class));
+        } else if (id == R.id.nav_friends) {
+            startActivity(new Intent(getBaseContext(), FriendsActivity.class));
+        }
+        else if (id == R.id.nav_login) {
             startActivity(new Intent(getBaseContext(), LoginActivity.class));
 
         } else if (id == R.id.nav_send) {
