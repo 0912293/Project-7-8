@@ -1,0 +1,16 @@
+{
+  "summary": {
+    "title": "SomeTitle",
+    "owner": "Michael de Klein"
+  },
+  "detail": {
+    "contributors": [],
+    "diagrams": [
+      {
+        "title": "ThisTitle",
+        "thumbnail": "./public/content/images/thumbnail.jpg",
+        "id": 0
+      }
+    ]
+  }
+}
